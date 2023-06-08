@@ -11,8 +11,11 @@ from wagtail.admin.panels import FieldPanel
 from wagtail.api import APIField
 
 
-class NewsPage(Page):
+class NewsIndex(Page):
+    pass
 
+
+class News(Page):
     # Lang is a multi selection field
     lang = models.CharField(default="zh", max_length=2)
 
@@ -21,21 +24,21 @@ class NewsPage(Page):
     body = RichTextField(blank=True)
 
     search_fields = Page.search_fields + [
-        index.SearchField('intro'),
-        index.SearchField('body'),
+        index.SearchField("intro"),
+        index.SearchField("body"),
     ]
 
     content_panels = Page.content_panels + [
-        FieldPanel('lang'),
-        FieldPanel('date'),
-        FieldPanel('intro'),
-        FieldPanel('body'),
+        FieldPanel("lang"),
+        FieldPanel("date"),
+        FieldPanel("intro"),
+        FieldPanel("body"),
     ]
 
     api_fields = [
-        APIField('intro'),
-        APIField('lang'),
-        APIField('date'),
-        APIField('body'),
-        APIField('title')
+        APIField("intro"),
+        APIField("lang"),
+        APIField("date"),
+        APIField("body"),
+        APIField("title"),
     ]

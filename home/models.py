@@ -8,7 +8,7 @@ from wagtail.admin.panels import FieldPanel
 from wagtail.api import APIField
 
 
-class HomePage(Page):
+class Home(Page):
     lang = models.CharField(default="zh", max_length=2)
 
     head = models.CharField(max_length=50)
@@ -37,50 +37,49 @@ class HomePage(Page):
     news_title = models.CharField(max_length=50)
 
     search_fields = Page.search_fields + [
-        index.SearchField('head'),
+        index.SearchField("head"),
     ]
 
     content_panels = Page.content_panels + [
-        FieldPanel('head'),
-        FieldPanel('introduction_title'),
-        FieldPanel('introduction'),
-        FieldPanel('read_more'),
-        FieldPanel('education_philosophy_title'),
-        FieldPanel('motto_title'),
-        FieldPanel('motto_content'),
-        FieldPanel('spirit_title'),
-        FieldPanel('spirit_content'),
-        FieldPanel('key_competency_title'),
-        FieldPanel('key_competency_content'),
-        FieldPanel('cultivation_title'),
-        FieldPanel('cultivation_content'),
-        FieldPanel('principal_message'),
-        FieldPanel('principal_name'),
-        FieldPanel('meet_baid_title'),
-        FieldPanel('admission_results_title'),
-        FieldPanel('admission_results_content'),
-        FieldPanel('news_title'),
-        
+        FieldPanel("head"),
+        FieldPanel("introduction_title"),
+        FieldPanel("introduction"),
+        FieldPanel("read_more"),
+        FieldPanel("education_philosophy_title"),
+        FieldPanel("motto_title"),
+        FieldPanel("motto_content"),
+        FieldPanel("spirit_title"),
+        FieldPanel("spirit_content"),
+        FieldPanel("key_competency_title"),
+        FieldPanel("key_competency_content"),
+        FieldPanel("cultivation_title"),
+        FieldPanel("cultivation_content"),
+        FieldPanel("principal_message"),
+        FieldPanel("principal_name"),
+        FieldPanel("meet_baid_title"),
+        FieldPanel("admission_results_title"),
+        FieldPanel("admission_results_content"),
+        FieldPanel("news_title"),
     ]
 
     api_fields = [
-        APIField('head'),
-        APIField('introduction_title'),
-        APIField('introduction'),
-        APIField('read_more'),
-        APIField('education_philosophy_title'),
-        APIField('motto_title'),
-        APIField('motto_content'),
-        APIField('spirit_title'),
-        APIField('spirit_content'),
-        APIField('key_competency_title'),
-        APIField('key_competency_content'),
-        APIField('cultivation_title'),
-        APIField('cultivation_content'),
-        APIField('principal_message'),
-        APIField('principal_name'),
-        APIField('meet_baid_title'),
-        APIField('admission_results_title'),
-        APIField('admission_results_content'),
-        APIField('news_title'),
+        APIField("head"),
+        APIField("introduction_title"),
+        APIField("introduction"),
+        APIField("read_more"),
+        APIField("education_philosophy_title"),
+        APIField("motto_title"),
+        APIField("motto_content"),
+        APIField("spirit_title"),
+        APIField("spirit_content"),
+        APIField("key_competency_title"),
+        APIField("key_competency_content"),
+        APIField("cultivation_title"),
+        APIField("cultivation_content"),
+        APIField("principal_message"),
+        APIField("principal_name"),
+        APIField("meet_baid_title"),
+        APIField("admission_results_title"),
+        APIField("admission_results_content"),
+        APIField("news_title"),
     ]
