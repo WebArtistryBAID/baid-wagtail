@@ -17,8 +17,6 @@ class NewsIndex(Page):
 
 class News(Page):
     # Lang is a multi selection field
-    lang = models.CharField(default="zh", max_length=2)
-
     date = models.DateField("Post date")
     intro = models.CharField(max_length=250)
     body = RichTextField(blank=True)
@@ -29,7 +27,6 @@ class News(Page):
     ]
 
     content_panels = Page.content_panels + [
-        FieldPanel("lang"),
         FieldPanel("date"),
         FieldPanel("intro"),
         FieldPanel("body"),
@@ -37,7 +34,6 @@ class News(Page):
 
     api_fields = [
         APIField("intro"),
-        APIField("lang"),
         APIField("date"),
         APIField("body"),
         APIField("title"),
