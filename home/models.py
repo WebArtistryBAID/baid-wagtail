@@ -4,40 +4,54 @@ from wagtail.models import Page
 from wagtail.fields import RichTextField
 from wagtail.admin.panels import FieldPanel
 from wagtail.search import index
-from wagtail.admin.panels import FieldPanel
 from wagtail.api import APIField
 
 
 class Home(Page):
-    lang = models.CharField(default="zh", max_length=2)
-
-    head = models.CharField(max_length=50)
-    introduction_title = models.CharField(max_length=50)
-    introduction = RichTextField(blank=True)
+    head = models.CharField(default="", max_length=50)
+    introduction_title = models.CharField(default="", max_length=50)
+    introduction = RichTextField(default="")
     read_more = models.CharField(default="了解更多", max_length=50)
 
-    education_philosophy_title = models.CharField(max_length=50)
+    education_philosophy_title = models.CharField(default="", max_length=50)
 
-    motto_title = models.CharField(max_length=50)
-    motto_content = models.CharField(max_length=50)
-    spirit_title = models.CharField(max_length=50)
-    spirit_content = models.CharField(max_length=50)
-    key_competency_title = models.CharField(max_length=50)
-    key_competency_content = models.CharField(max_length=50)
-    cultivation_title = models.CharField(max_length=50)
-    cultivation_content = models.CharField(max_length=50)
+    motto_title = models.CharField(default="", max_length=50)
+    motto_content = models.CharField(default="", max_length=50)
+    spirit_title = models.CharField(default="", max_length=50)
+    spirit_content = models.CharField(default="", max_length=50)
+    key_competency_title = models.CharField(default="", max_length=50)
+    key_competency_content = models.CharField(default="", max_length=50)
+    cultivation_title = models.CharField(default="", max_length=50)
+    cultivation_content = models.CharField(default="", max_length=50)
 
-    principal_message = models.CharField(max_length=50)
-    principal_name = models.CharField(max_length=50)
+    principal_message = models.CharField(default="", max_length=50)
+    principal_name = models.CharField(default="", max_length=50)
 
-    meet_baid_title = models.CharField(max_length=50)
-    admission_results_title = models.CharField(max_length=50)
-    admission_results_content = RichTextField(blank=True)
+    meet_baid_title = models.CharField(default="", max_length=50)
+    admission_results_title = models.CharField(default="", max_length=50)
+    admission_results_content = RichTextField(default="")
 
-    news_title = models.CharField(max_length=50)
+    news_title = models.CharField(default="", max_length=50)
 
     search_fields = Page.search_fields + [
-        index.SearchField("head"),
+        index.SearchField('head'),
+        index.SearchField('introduction_title'),
+        index.SearchField('introduction'),
+        index.SearchField('education_philosophy_title'),
+        index.SearchField('motto_title'),
+        index.SearchField('motto_content'),
+        index.SearchField('spirit_title'),
+        index.SearchField('spirit_content'),
+        index.SearchField('key_competency_title'),
+        index.SearchField('key_competency_content'),
+        index.SearchField('cultivation_title'),
+        index.SearchField('cultivation_content'),
+        index.SearchField('principal_message'),
+        index.SearchField('principal_name'),
+        index.SearchField('meet_baid_title'),
+        index.SearchField('admission_results_title'),
+        index.SearchField('admission_results_content'),
+        index.SearchField('news_title'),
     ]
 
     content_panels = Page.content_panels + [
