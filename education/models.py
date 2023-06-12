@@ -6,7 +6,6 @@ from wagtail.admin.panels import FieldPanel
 from wagtail.search import index
 from wagtail.api import APIField
 
-
 # Create your models here.
 
 class Education(Page):
