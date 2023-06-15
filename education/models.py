@@ -6,7 +6,24 @@ from wagtail.admin.panels import FieldPanel
 from wagtail.search import index
 from wagtail.api import APIField
 
-# Create your models here.
+
+class LaerningMethods(models.Model):
+    title = models.CharField(default="", max_length=50)
+    content = RichTextField(default="")
+    image = models.ImageField(upload_to="learning_methods/", default="")
+
+    panels = [
+        FieldPanel("title"),
+        FieldPanel("content"),
+        FieldPanel("image"),
+    ]
+
+    api_fields = [
+        APIField("title"),
+        APIField("content"),
+        APIField("image"),
+    ]
+
 
 class Education(Page):
     curriculum_tilte = models.CharField(default="", max_length=50)
@@ -18,36 +35,12 @@ class Education(Page):
     curriculum_content_3 = RichTextField(default="")
 
     learning_methods_title = models.CharField(default="", max_length=50)
-    learning_methods_sub_title_1 = models.CharField(default="", max_length=50)
-    learning_methods_content_1 = RichTextField(default="")
-    learning_methods_sub_title_2 = models.CharField(default="", max_length=50)
-    learning_methods_content_2 = RichTextField(default="")
-    learning_methods_sub_title_3 = models.CharField(default="", max_length=50)
-    learning_methods_content_3 = RichTextField(default="")
+
+    learning_methods = models.ManyToManyField(LaerningMethods)
 
     student_guidance_title = models.CharField(default="", max_length=50)
 
     wonderful_moments_title = models.CharField(default="", max_length=50)
-
-    search_fields = Page.search_fields + [
-        index.SearchField('title'),
-        index.SearchField('curriculum_tilte'),
-        index.SearchField('curriculum_sub_title_1'),
-        index.SearchField('curriculum_content_1'),
-        index.SearchField('curriculum_sub_title_2'),
-        index.SearchField('curriculum_content_2'),
-        index.SearchField('curriculum_sub_title_3'),
-        index.SearchField('curriculum_content_3'),
-        index.SearchField('learning_methods_title'),
-        index.SearchField('learning_methods_sub_title_1'),
-        index.SearchField('learning_methods_content_1'),
-        index.SearchField('learning_methods_sub_title_2'),
-        index.SearchField('learning_methods_content_2'),
-        index.SearchField('learning_methods_sub_title_3'),
-        index.SearchField('learning_methods_content_3'),
-        index.SearchField('student_guidance_title'),
-        index.SearchField('wonderful_moments_title'),
-    ]
 
     content_panels = Page.content_panels + [
         FieldPanel("title"),
@@ -59,12 +52,7 @@ class Education(Page):
         FieldPanel("curriculum_sub_title_3"),
         FieldPanel("curriculum_content_3"),
         FieldPanel("learning_methods_title"),
-        FieldPanel("learning_methods_sub_title_1"),
-        FieldPanel("learning_methods_content_1"),
-        FieldPanel("learning_methods_sub_title_2"),
-        FieldPanel("learning_methods_content_2"),
-        FieldPanel("learning_methods_sub_title_3"),
-        FieldPanel("learning_methods_content_3"),
+        FieldPanel("learning_methods"),
         FieldPanel("student_guidance_title"),
         FieldPanel("wonderful_moments_title"),
     ]
@@ -79,13 +67,7 @@ class Education(Page):
         APIField("curriculum_sub_title_3"),
         APIField("curriculum_content_3"),
         APIField("learning_methods_title"),
-        APIField("learning_methods_sub_title_1"),
-        APIField("learning_methods_content_1"),
-        APIField("learning_methods_sub_title_2"),
-        APIField("learning_methods_content_2"),
-        APIField("learning_methods_sub_title_3"),
-        APIField("learning_methods_content_3"),
+        APIField("learning_methods"),
         APIField("student_guidance_title"),
         APIField("wonderful_moments_title"),
     ]
-

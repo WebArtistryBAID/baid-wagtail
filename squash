@@ -1,0 +1,11 @@
+squash () {
+  rm -rf ./$1/migrations/*
+  python3 ./manage.py makemigrations $1
+}
+
+squash "home"
+squash "join_us"
+squash "about_us"
+squash "news"
+squash "student_life"
+squash "education"
