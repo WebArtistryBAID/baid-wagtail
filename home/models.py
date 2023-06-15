@@ -25,6 +25,7 @@ class Home(Page):
     cultivation_content = models.CharField(default="", max_length=50)
 
     principal_message = models.CharField(default="", max_length=50)
+    principal_avatar = models.ImageField(upload_to="home/principal_avatar", null=True)
     principal_name = models.CharField(default="", max_length=50)
 
     meet_baid_title = models.CharField(default="", max_length=50)
@@ -34,24 +35,25 @@ class Home(Page):
     news_title = models.CharField(default="", max_length=50)
 
     search_fields = Page.search_fields + [
-        index.SearchField('head'),
-        index.SearchField('introduction_title'),
-        index.SearchField('introduction'),
-        index.SearchField('education_philosophy_title'),
-        index.SearchField('motto_title'),
-        index.SearchField('motto_content'),
-        index.SearchField('spirit_title'),
-        index.SearchField('spirit_content'),
-        index.SearchField('key_competency_title'),
-        index.SearchField('key_competency_content'),
-        index.SearchField('cultivation_title'),
-        index.SearchField('cultivation_content'),
-        index.SearchField('principal_message'),
-        index.SearchField('principal_name'),
-        index.SearchField('meet_baid_title'),
-        index.SearchField('admission_results_title'),
-        index.SearchField('admission_results_content'),
-        index.SearchField('news_title'),
+        index.SearchField("head"),
+        index.SearchField("introduction_title"),
+        index.SearchField("introduction"),
+        index.SearchField("education_philosophy_title"),
+        index.SearchField("motto_title"),
+        index.SearchField("motto_content"),
+        index.SearchField("spirit_title"),
+        index.SearchField("spirit_content"),
+        index.SearchField("key_competency_title"),
+        index.SearchField("key_competency_content"),
+        index.SearchField("cultivation_title"),
+        index.SearchField("cultivation_content"),
+        index.SearchField("principal_message"),
+        index.SearchField("principal_avatar"),
+        index.SearchField("principal_name"),
+        index.SearchField("meet_baid_title"),
+        index.SearchField("admission_results_title"),
+        index.SearchField("admission_results_content"),
+        index.SearchField("news_title"),
     ]
 
     content_panels = Page.content_panels + [
@@ -69,6 +71,7 @@ class Home(Page):
         FieldPanel("cultivation_title"),
         FieldPanel("cultivation_content"),
         FieldPanel("principal_message"),
+        FieldPanel("principal_avatar"),
         FieldPanel("principal_name"),
         FieldPanel("meet_baid_title"),
         FieldPanel("admission_results_title"),
@@ -91,6 +94,7 @@ class Home(Page):
         APIField("cultivation_title"),
         APIField("cultivation_content"),
         APIField("principal_message"),
+        APIField("principal_avatar"),
         APIField("principal_name"),
         APIField("meet_baid_title"),
         APIField("admission_results_title"),
