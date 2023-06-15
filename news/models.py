@@ -19,6 +19,7 @@ class News(Page):
     # Lang is a multi selection field
     date = models.DateField("Post date")
     intro = models.CharField(max_length=250)
+    cover = models.ImageField(null=True)
     body = RichTextField(blank=True)
 
     search_fields = Page.search_fields + [
@@ -29,12 +30,14 @@ class News(Page):
     content_panels = Page.content_panels + [
         FieldPanel("date"),
         FieldPanel("intro"),
+        FieldPanel("cover"),
         FieldPanel("body"),
     ]
 
     api_fields = [
         APIField("intro"),
         APIField("date"),
+        APIField("cover"),
         APIField("body"),
         APIField("title"),
     ]
