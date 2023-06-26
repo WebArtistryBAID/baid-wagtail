@@ -36,7 +36,6 @@ class AboutUs(Page):
     overview_content = RichTextField(default="")
 
     alumni_title = models.CharField(default="", max_length=50)
-    # alumni = models.ManyToManyField(Alumni)
 
     accreditation_title = models.CharField(default="", max_length=50)
     accreditation_content = RichTextField(default="")

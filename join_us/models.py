@@ -1,16 +1,21 @@
 from django.db import models
 
 from wagtail.models import Page
-from wagtail.fields import RichTextField
-from wagtail.admin.panels import FieldPanel
-from wagtail.search import index
+from wagtail.fields import RichTextField, StreamField
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from wagtail.api import APIField
+from wagtail.images.blocks import ImageChooserBlock
 
-# Create your models here.
 
 class JoinUs(Page):
-    join = models.CharField(default="", max_length=50)
-    
+    carousel_images = StreamField(
+        [
+            ("image", ImageChooserBlock()),
+        ],
+        use_json_field=True,
+        null=True,
+    )
+
     student_title = models.CharField(default="", max_length=50)
     student_content = RichTextField(default="")
     student_join = models.CharField(default="", max_length=50)
@@ -19,35 +24,32 @@ class JoinUs(Page):
     faculty_content = RichTextField(default="")
     faculty_join = models.CharField(default="", max_length=50)
 
-    search_fields = Page.search_fields + [
-        index.SearchField('title'),
-        index.SearchField('join'),
-        index.SearchField('student_title'),
-        index.SearchField('student_content'),
-        index.SearchField('student_join'),
-        index.SearchField('faculty_title'),
-        index.SearchField('faculty_content'),
-        index.SearchField('faculty_join'),
-    ]
-
     content_panels = Page.content_panels + [
-        FieldPanel('title'),
-        FieldPanel('join'),
-        FieldPanel('student_title'),
-        FieldPanel('student_content'),
-        FieldPanel('student_join'),
-        FieldPanel('faculty_title'),
-        FieldPanel('faculty_content'),
-        FieldPanel('faculty_join'),
+        FieldPanel("carousel_images"),
+        MultiFieldPanel(
+            [
+                FieldPanel("student_title"),
+                FieldPanel("student_content"),
+                FieldPanel("student_join"),
+            ],
+            heading="Student",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("faculty_title"),
+                FieldPanel("faculty_content"),
+                FieldPanel("faculty_join"),
+            ],
+            heading="Faculty",
+        ),
     ]
 
     api_fields = [
-        APIField('title'),
-        APIField('join'),
-        APIField('student_title'),
-        APIField('student_content'),
-        APIField('student_join'),
-        APIField('faculty_title'),
-        APIField('faculty_content'),
-        APIField('faculty_join'),
+        APIField("carousel_images"),
+        APIField("student_title"),
+        APIField("student_content"),
+        APIField("student_join"),
+        APIField("faculty_title"),
+        APIField("faculty_content"),
+        APIField("faculty_join"),
     ]
