@@ -1,22 +1,26 @@
 from django.db import models
 
-from wagtail.models import Page, Orderable
-from wagtail.fields import RichTextField
-from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
-from wagtail.search import index
+from wagtail.models import Page
+from wagtail.fields import RichTextField, StreamField
+from wagtail.admin.panels import FieldPanel, InlinePanel
 from wagtail.api import APIField
 from modelcluster.fields import ParentalKey
-
-
-# Create your models here.
+from wagtail.images.blocks import ImageChooserBlock
+from baid.api import ImageUrlField
 
 
 class Alumnus(models.Model):
+    """
+    Alumnus information
+    """
+
     page = ParentalKey("AboutUs", related_name="alumni")
 
     name = models.CharField(default="", max_length=50)
     content = RichTextField(default="")
-    image = models.ImageField(upload_to="alumni/", default="")
+    image = models.ForeignKey(
+        "wagtailimages.Image", on_delete=models.CASCADE, related_name="+"
+    )
 
     panels = [
         FieldPanel("name"),
@@ -27,82 +31,47 @@ class Alumnus(models.Model):
     api_fields = [
         APIField("name"),
         APIField("content"),
-        APIField("image"),
+        APIField("image", serializer=ImageUrlField()),
     ]
+
+
+class Stat(models.Model):
+    """
+    Statistical data about school
+    Example: Student-faculty ratio
+    """
+
+    page = ParentalKey("AboutUs", related_name="data")
+
+    name = models.CharField(default="", max_length=50)
+    content = models.CharField(default="", max_length=50)
 
 
 class AboutUs(Page):
-    overview_title = models.CharField(default="", max_length=50)
-    overview_content = RichTextField(default="")
+    carousel_images = StreamField(
+        [
+            ("image", ImageChooserBlock()),
+        ],
+        use_json_field=True,
+        null=True,
+    )
 
-    alumni_title = models.CharField(default="", max_length=50)
+    overview = RichTextField(default="")
 
-    accreditation_title = models.CharField(default="", max_length=50)
-    accreditation_content = RichTextField(default="")
-
-    data_title = models.CharField(default="", max_length=50)
-    data_sub_title_1 = models.CharField(default="", max_length=50)
-    data_content_1 = models.CharField(default="", max_length=50)
-    data_sub_title_2 = models.CharField(default="", max_length=50)
-    data_content_2 = models.CharField(default="", max_length=50)
-    data_sub_title_3 = models.CharField(default="", max_length=50)
-    data_content_3 = models.CharField(default="", max_length=50)
-    data_sub_title_4 = models.CharField(default="", max_length=50)
-    data_content_4 = models.CharField(default="", max_length=50)
+    accreditation = RichTextField(default="")
 
     content_panels = Page.content_panels + [
-        MultiFieldPanel(
-            [
-                FieldPanel("overview_title"),
-                FieldPanel("overview_content"),
-            ],
-            heading="Overview",
-        ),
-        MultiFieldPanel(
-            [
-                FieldPanel("alumni_title"),
-                InlinePanel("alumni"),
-            ],
-            heading="Alumni",
-        ),
-        MultiFieldPanel(
-            [
-                FieldPanel("accreditation_title"),
-                FieldPanel("accreditation_content"),
-            ],
-            heading="Accreditation",
-        ),
-        MultiFieldPanel(
-            [
-                FieldPanel("data_title"),
-                FieldPanel("data_sub_title_1"),
-                FieldPanel("data_content_1"),
-                FieldPanel("data_sub_title_2"),
-                FieldPanel("data_content_2"),
-                FieldPanel("data_sub_title_3"),
-                FieldPanel("data_content_3"),
-                FieldPanel("data_sub_title_4"),
-                FieldPanel("data_content_4"),
-            ],
-            heading="Data",
-        ),
+        FieldPanel("carousel_images"),
+        FieldPanel("overview"),
+        InlinePanel("alumni", heading="Alumni"),
+        FieldPanel("accreditation"),
+        InlinePanel("data", heading="Data"),
     ]
 
     api_fields = [
-        APIField("title"),
-        APIField("overview_title"),
-        APIField("overview_content"),
-        APIField("alumni_title"),
+        APIField("carousel_images", serializer=ImageUrlField()),
+        APIField("overview"),
         APIField("alumni"),
-        APIField("accreditation_title"),
-        APIField("accreditation_content"),
-        APIField("data_title"),
-        APIField("data_sub_title_1"),
-        APIField("data_content_1"),
-        APIField("data_sub_title_2"),
-        APIField("data_content_2"),
-        APIField("data_sub_title_3"),
-        APIField("data_content_3"),
-        APIField("data_sub_title_4"),
-        APIField("data_content_4"),
+        APIField("accreditation"),
+        APIField("data"),
     ]
