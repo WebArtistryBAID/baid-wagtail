@@ -1,3 +1,5 @@
+#! /usr/bin/env bash
+
 squash () {
   rm -rf ./$1/migrations/*
   python3 ./manage.py makemigrations $1

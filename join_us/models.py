@@ -16,29 +16,25 @@ class JoinUs(Page):
         null=True,
     )
 
-    student_title = models.CharField(default="", max_length=50)
-    student_content = RichTextField(default="")
-    student_join = models.CharField(default="", max_length=50)
+    student = RichTextField(default="")
+    student_portal = models.URLField(blank=True, null=True)
 
-    faculty_title = models.CharField(default="", max_length=50)
-    faculty_content = RichTextField(default="")
-    faculty_join = models.CharField(default="", max_length=50)
+    faculty = RichTextField(default="")
+    faculty_portal = models.URLField(blank=True, null=True)
 
     content_panels = Page.content_panels + [
         FieldPanel("carousel_images"),
         MultiFieldPanel(
             [
-                FieldPanel("student_title"),
-                FieldPanel("student_content"),
-                FieldPanel("student_join"),
+                FieldPanel("student"),
+                FieldPanel("student_portal"),
             ],
             heading="Student",
         ),
         MultiFieldPanel(
             [
-                FieldPanel("faculty_title"),
-                FieldPanel("faculty_content"),
-                FieldPanel("faculty_join"),
+                FieldPanel("faculty"),
+                FieldPanel("faculty_portal"),
             ],
             heading="Faculty",
         ),
@@ -46,10 +42,8 @@ class JoinUs(Page):
 
     api_fields = [
         APIField("carousel_images"),
-        APIField("student_title"),
-        APIField("student_content"),
-        APIField("student_join"),
-        APIField("faculty_title"),
-        APIField("faculty_content"),
-        APIField("faculty_join"),
+        APIField("student"),
+        APIField("student_portal"),
+        APIField("faculty"),
+        APIField("faculty_portal"),
     ]

@@ -1,128 +1,83 @@
 from django.db import models
 
 from wagtail.models import Page
-from wagtail.fields import RichTextField
-from wagtail.admin.panels import FieldPanel
+from wagtail.fields import RichTextField, StreamField
+from modelcluster.fields import ParentalKey
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel, InlinePanel
 from wagtail.search import index
+from wagtail.images.blocks import ImageChooserBlock
 from wagtail.api import APIField
+from baid.api import ImageUrlField
 
-# Create your models here.
 
-class StudentLife(Page):
-    activities_title = models.CharField(default="", max_length=50)
-    activities_sub_title_1 = models.CharField(default="", max_length=50)
-    activities_content_1 = RichTextField(default="")
-    activities_sub_title_2 = models.CharField(default="", max_length=50)
-    activities_content_2 = RichTextField(default="")
-    activities_sub_title_3 = models.CharField(default="", max_length=50)
-    activities_content_3 = RichTextField(default="")
-    activities_sub_title_4 = models.CharField(default="", max_length=50)
-    activities_content_4 = RichTextField(default="")
-    activities_sub_title_5 = models.CharField(default="", max_length=50)
-    activities_content_5 = RichTextField(default="")
-    activities_sub_title_6 = models.CharField(default="", max_length=50)
-    activities_content_6 = RichTextField(default="")
-
-    clubs_title = models.CharField(default="", max_length=50)
-    clubs_sub_title_1 = models.CharField(default="", max_length=50)
-    clubs_content_1 = RichTextField(default="")
-    clubs_sub_title_2 = models.CharField(default="", max_length=50)
-    clubs_content_2 = RichTextField(default="")
-    clubs_sub_title_3 = models.CharField(default="", max_length=50)
-    clubs_content_3 = RichTextField(default="")
-    clubs_sub_title_4 = models.CharField(default="", max_length=50)
-    clubs_content_4 = RichTextField(default="")
-    clubs_sub_title_5 = models.CharField(default="", max_length=50)
-    clubs_content_5 = RichTextField(default="")
-    clubs_sub_title_6 = models.CharField(default="", max_length=50)
-    clubs_content_6 = RichTextField(default="")
-
-    search_fields = Page.search_fields + [
-        index.SearchField('title'),
-        index.SearchField('activities_title'),
-        index.SearchField('activities_sub_title_1'),
-        index.SearchField('activities_content_1'),
-        index.SearchField('activities_sub_title_2'),
-        index.SearchField('activities_content_2'),
-        index.SearchField('activities_sub_title_3'),
-        index.SearchField('activities_content_3'),
-        index.SearchField('activities_sub_title_4'),
-        index.SearchField('activities_content_4'),
-        index.SearchField('activities_sub_title_5'),
-        index.SearchField('activities_content_5'),
-        index.SearchField('activities_sub_title_6'),
-        index.SearchField('activities_content_6'),
-        index.SearchField('clubs_title'),
-        index.SearchField('clubs_sub_title_1'),
-        index.SearchField('clubs_content_1'),
-        index.SearchField('clubs_sub_title_2'),
-        index.SearchField('clubs_content_2'),
-        index.SearchField('clubs_sub_title_3'),
-        index.SearchField('clubs_content_3'),
-        index.SearchField('clubs_sub_title_4'),
-        index.SearchField('clubs_content_4'),
-        index.SearchField('clubs_sub_title_5'),
-        index.SearchField('clubs_content_5'),
-        index.SearchField('clubs_sub_title_6'),
-        index.SearchField('clubs_content_6'),
-    ]
-
-    content_panels = Page.content_panels + [
-        FieldPanel('title'),
-        FieldPanel('activities_title'),
-        FieldPanel('activities_sub_title_1'),
-        FieldPanel('activities_content_1'),
-        FieldPanel('activities_sub_title_2'),
-        FieldPanel('activities_content_2'),
-        FieldPanel('activities_sub_title_3'),
-        FieldPanel('activities_content_3'),
-        FieldPanel('activities_sub_title_4'),
-        FieldPanel('activities_content_4'),
-        FieldPanel('activities_sub_title_5'),
-        FieldPanel('activities_content_5'),
-        FieldPanel('activities_sub_title_6'),
-        FieldPanel('activities_content_6'),
-        FieldPanel('clubs_title'),
-        FieldPanel('clubs_sub_title_1'),
-        FieldPanel('clubs_content_1'),
-        FieldPanel('clubs_sub_title_2'),
-        FieldPanel('clubs_content_2'),
-        FieldPanel('clubs_sub_title_3'),
-        FieldPanel('clubs_content_3'),
-        FieldPanel('clubs_sub_title_4'),
-        FieldPanel('clubs_content_4'),
-        FieldPanel('clubs_sub_title_5'),
-        FieldPanel('clubs_content_5'),
-        FieldPanel('clubs_sub_title_6'),
-        FieldPanel('clubs_content_6'),
+class Activity(models.Model):
+    page = ParentalKey("StudentLife", related_name="activities")
+    name = models.CharField(default="", max_length=50)
+    content = RichTextField(default="")
+    image = models.ForeignKey(
+        "wagtailimages.Image", on_delete=models.CASCADE, related_name="+"
+    )
+    panels = [
+        FieldPanel("name"),
+        FieldPanel("content"),
+        FieldPanel("image"),
     ]
 
     api_fields = [
-        APIField('title'),
-        APIField('activities_title'),
-        APIField('activities_sub_title_1'),
-        APIField('activities_content_1'),
-        APIField('activities_sub_title_2'),
-        APIField('activities_content_2'),
-        APIField('activities_sub_title_3'),
-        APIField('activities_content_3'),
-        APIField('activities_sub_title_4'),
-        APIField('activities_content_4'),
-        APIField('activities_sub_title_5'),
-        APIField('activities_content_5'),
-        APIField('activities_sub_title_6'),
-        APIField('activities_content_6'),
-        APIField('clubs_title'),
-        APIField('clubs_sub_title_1'),
-        APIField('clubs_content_1'),
-        APIField('clubs_sub_title_2'),
-        APIField('clubs_content_2'),
-        APIField('clubs_sub_title_3'),
-        APIField('clubs_content_3'),
-        APIField('clubs_sub_title_4'),
-        APIField('clubs_content_4'),
-        APIField('clubs_sub_title_5'),
-        APIField('clubs_content_5'),
-        APIField('clubs_sub_title_6'),
-        APIField('clubs_content_6'),
+        APIField("name"),
+        APIField("content"),
+        APIField("image"),
+    ]
+
+
+class Club(models.Model):
+    page = ParentalKey("StudentLife", related_name="clubs")
+
+    name = models.CharField(default="", max_length=50)
+    content = RichTextField(default="")
+    icon = models.ForeignKey(
+        "wagtailimages.Image", on_delete=models.CASCADE, related_name="+"
+    )
+    images = StreamField(
+        [
+            ("image", ImageChooserBlock()),
+        ],
+        use_json_field=True,
+        null=True,
+    )
+
+    panels = [
+        FieldPanel("name"),
+        FieldPanel("icon"),
+        FieldPanel("content"),
+        FieldPanel("images"),
+    ]
+
+    api_fields = [
+        APIField("name"),
+        APIField("icon"),
+        APIField("content"),
+        APIField("images"),
+    ]
+
+
+class StudentLife(Page):
+    carousel_images = StreamField(
+        [
+            ("image", ImageChooserBlock()),
+        ],
+        use_json_field=True,
+        null=True,
+    )
+
+    content_panels = Page.content_panels + [
+        FieldPanel("carousel_images"),
+        InlinePanel("activities", heading="Activities", min_num=6, max_num=6),
+        InlinePanel("clubs", heading="Clubs", min_num=1),
+    ]
+
+    api_fields = [
+        APIField("carousel_images", serializer=ImageUrlField()),
+        APIField("activities"),
+        APIField("clubs"),
     ]
