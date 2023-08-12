@@ -26,7 +26,7 @@ class Activity(models.Model):
     api_fields = [
         APIField("name"),
         APIField("content"),
-        APIField("image"),
+        APIField("image", serializer=ImageUrlField()),
     ]
 
 
@@ -57,7 +57,7 @@ class Club(models.Model):
         APIField("name"),
         APIField("icon"),
         APIField("content"),
-        APIField("images"),
+        APIField("images", serializer=ImageUrlField()),
     ]
 
 

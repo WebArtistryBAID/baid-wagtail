@@ -27,7 +27,7 @@ class LearningMethod(models.Model):
     api_fields = [
         APIField("title"),
         APIField("content"),
-        APIField("image"),
+        APIField("image", serializer=ImageUrlField()),
     ]
 
 
@@ -36,6 +36,11 @@ class Curriculum(models.Model):
 
     name = models.CharField(default="", max_length=50)
     content = RichTextField(default="")
+
+    api_fields = [
+        APIField("name"),
+        APIField("content"),
+    ]
 
 
 class Education(Page):
