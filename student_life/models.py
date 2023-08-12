@@ -55,7 +55,7 @@ class Club(models.Model):
 
     api_fields = [
         APIField("name"),
-        APIField("icon"),
+        APIField("icon", serializer=ImageUrlField()),
         APIField("content"),
         APIField("images", serializer=ImageUrlField()),
     ]
