@@ -6,6 +6,8 @@ from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from wagtail.api import APIField
 from wagtail.images.blocks import ImageChooserBlock
 
+from baid.api import ImageUrlField
+
 
 class JoinUs(Page):
     carousel_images = StreamField(
@@ -41,7 +43,7 @@ class JoinUs(Page):
     ]
 
     api_fields = [
-        APIField("carousel_images"),
+        APIField("carousel_images", serializer=ImageUrlField()),
         APIField("student"),
         APIField("student_portal"),
         APIField("faculty"),
