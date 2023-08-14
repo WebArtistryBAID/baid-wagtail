@@ -11,7 +11,7 @@ ALLOWED_HOSTS = ["*"]
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
-WAGTAILADMIN_BASE_URL = "http://139.217.97.80:8000"
+WAGTAILADMIN_BASE_URL = "https://cms.beijing.academy"
 
 try:
     from .local import *
