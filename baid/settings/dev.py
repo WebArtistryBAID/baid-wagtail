@@ -13,6 +13,8 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 WAGTAILADMIN_BASE_URL = "https://cms.beijing.academy"
 
+CSRF_TRUSTED_ORIGINS = ["https://cms.beijing.academy"]
+
 try:
     from .local import *
 except ImportError:
