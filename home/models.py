@@ -1,12 +1,22 @@
 from django.db import models
+from wagtail.images.blocks import ImageChooserBlock
 
 from wagtail.models import Page
-from wagtail.fields import RichTextField
+from wagtail.fields import RichTextField, StreamField
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from wagtail.api import APIField
 
+from baid.api import ImageUrlField
+
 
 class Home(Page):
+    carousel_images = StreamField(
+        [
+            ("image", ImageChooserBlock()),
+        ],
+        use_json_field=True,
+        null=True,
+    )
     head = models.CharField(default="", max_length=50)
     introduction_title = models.CharField(default="", max_length=50)
     introduction = RichTextField(default="")
@@ -21,13 +31,16 @@ class Home(Page):
     cultivation_content = models.CharField(default="", max_length=50)
 
     principal_message = models.CharField(default="", max_length=50)
-    principal_avatar = models.ImageField(upload_to="home/principal_avatar", null=True)
+    principal_avatar = models.ForeignKey(
+        "wagtailimages.Image", on_delete=models.SET_NULL, related_name="+", null=True
+    )
     principal_name = models.CharField(default="", max_length=50)
 
     admission_results_title = models.CharField(default="", max_length=50)
     admission_results_content = RichTextField(default="")
 
     content_panels = Page.content_panels + [
+        FieldPanel("carousel_images"),
         FieldPanel("head"),
         MultiFieldPanel(
             [
@@ -61,6 +74,7 @@ class Home(Page):
     ]
 
     api_fields = [
+        APIField("carousel_images", serializer=ImageUrlField()),
         APIField("head"),
         APIField("introduction_title"),
         APIField("introduction"),
@@ -73,7 +87,7 @@ class Home(Page):
         APIField("cultivation_title"),
         APIField("cultivation_content"),
         APIField("principal_message"),
-        APIField("principal_avatar"),
+        APIField("principal_avatar", serializer=ImageUrlField()),
         APIField("principal_name"),
         APIField("admission_results_content"),
     ]
