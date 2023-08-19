@@ -46,6 +46,8 @@ class Stat(models.Model):
     name = models.CharField(default="", max_length=50)
     content = models.CharField(default="", max_length=50)
 
+    api_fields = [APIField("name"), APIField("content")]
+
 
 class AboutUs(Page):
     carousel_images = StreamField(

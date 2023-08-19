@@ -45,12 +45,16 @@ class Club(models.Model):
         use_json_field=True,
         null=True,
     )
+    color = models.CharField(default="black", max_length=10)
+    bg_color = models.CharField(default="white", max_length=10)
 
     panels = [
         FieldPanel("name"),
         FieldPanel("icon"),
         FieldPanel("content"),
         FieldPanel("images"),
+        FieldPanel("color"),
+        FieldPanel("bg_color"),
     ]
 
     api_fields = [
@@ -58,6 +62,8 @@ class Club(models.Model):
         APIField("icon", serializer=ImageUrlField()),
         APIField("content"),
         APIField("images", serializer=ImageUrlField()),
+        APIField("color"),
+        APIField("bg_color"),
     ]
 
 
