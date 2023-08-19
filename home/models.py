@@ -18,7 +18,7 @@ class Home(Page):
         null=True,
     )
     head = models.CharField(default="", max_length=50)
-    introduction_title = models.CharField(default="", max_length=50)
+    introduction_title = models.CharField(default="", max_length=100)
     introduction = RichTextField(default="")
 
     motto_title = models.CharField(default="", max_length=50)
