@@ -41,7 +41,6 @@ class ImageUrlField(Field):
                     urls.append(self.full_url(image.value.file.url))
                 return urls
             if isinstance(value, ImageFieldFile):
-                print("IMGF")
                 return self.full_url(value.url)
             else:
                 return self.full_url(value.file.url)
