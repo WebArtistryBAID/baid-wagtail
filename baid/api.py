@@ -1,6 +1,7 @@
 # api.py
 
 from django.conf import LazySettings
+from django.db.models.fields.files import ImageFieldFile
 from rest_framework.fields import Field
 from wagtail.api.v2.views import PagesAPIViewSet
 from wagtail.api.v2.router import WagtailAPIRouter
@@ -33,10 +34,16 @@ class ImageUrlField(Field):
         return url
 
     def to_representation(self, value):
-        if isinstance(value, StreamValue):
-            urls = []
-            for image in value:
-                urls.append(self.full_url(image.value.file.url))
-            return urls
-        else:
-            return self.full_url(value.file.url)
+        try:
+            if isinstance(value, StreamValue):
+                urls = []
+                for image in value:
+                    urls.append(self.full_url(image.value.file.url))
+                return urls
+            if isinstance(value, ImageFieldFile):
+                print("IMGF")
+                return self.full_url(value.url)
+            else:
+                return self.full_url(value.file.url)
+        except:
+            return None

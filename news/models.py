@@ -10,6 +10,8 @@ from wagtail.search import index
 from wagtail.admin.panels import FieldPanel
 from wagtail.api import APIField
 
+from baid.api import ImageUrlField
+
 
 class NewsIndex(Page):
     pass
@@ -37,7 +39,7 @@ class News(Page):
     api_fields = [
         APIField("intro"),
         APIField("date"),
-        APIField("cover"),
+        APIField("cover", serializer=ImageUrlField()),
         APIField("body"),
         APIField("title"),
     ]
