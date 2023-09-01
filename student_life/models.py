@@ -45,8 +45,8 @@ class Club(models.Model):
         use_json_field=True,
         null=True,
     )
-    color = models.CharField(default="black", max_length=10)
-    bg_color = models.CharField(default="white", max_length=10)
+    color = models.CharField(default="black", max_length=50)
+    bg_color = models.CharField(default="white", max_length=50)
 
     panels = [
         FieldPanel("name"),
