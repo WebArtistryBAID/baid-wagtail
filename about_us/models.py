@@ -45,8 +45,9 @@ class Stat(models.Model):
 
     name = models.CharField(default="", max_length=50)
     content = models.CharField(default="", max_length=50)
+    icon = models.CharField(default="", max_length=10000)
 
-    api_fields = [APIField("name"), APIField("content")]
+    api_fields = [APIField("name"), APIField("content"), APIField("icon")]
 
 
 class AboutUs(Page):
