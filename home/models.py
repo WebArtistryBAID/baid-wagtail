@@ -22,13 +22,13 @@ class Home(Page):
     introduction = RichTextField(default="")
 
     motto_title = models.CharField(default="", max_length=50)
-    motto_content = models.CharField(default="", max_length=50)
+    motto_content = RichTextField(default="")
     spirit_title = models.CharField(default="", max_length=50)
-    spirit_content = models.CharField(default="", max_length=50)
+    spirit_content = RichTextField(default="")
     key_competency_title = models.CharField(default="", max_length=50)
-    key_competency_content = models.CharField(default="", max_length=50)
+    key_competency_content = RichTextField(default="")
     cultivation_title = models.CharField(default="", max_length=50)
-    cultivation_content = models.CharField(default="", max_length=50)
+    cultivation_content = RichTextField(default="")
 
     principal_message = models.CharField(default="", max_length=50)
     principal_avatar = models.ForeignKey(
