@@ -19,6 +19,11 @@ LOGGING = {
     },
 }
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://cms.beijing.academy',
+    'http://localhost:3000',
+]
+
 try:
     from .local import *
 except ImportError:
