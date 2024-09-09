@@ -37,3 +37,6 @@ static/
 
 # Secrets
 start.sh
+
+media/
+db.sqlite3
