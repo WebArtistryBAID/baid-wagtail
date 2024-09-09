@@ -87,7 +87,7 @@ class Education(Page):
         InlinePanel("curriculums", heading="Curriculums"),
         InlinePanel("learning_methods", heading="Learning Methods"),
         InlinePanel("student_mentorship", heading="Student Mentorship"),
-        FieldPanel("moments")
+        FieldPanel("moments"),
     ]
 
     api_fields = [
@@ -95,5 +95,5 @@ class Education(Page):
         APIField("curriculums"),
         APIField("learning_methods"),
         APIField("student_mentorship"),
-        APIField("moments")
+        APIField("moments", serializer=ImageUrlField()),
     ]
