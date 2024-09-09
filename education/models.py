@@ -43,8 +43,38 @@ class Curriculum(models.Model):
     ]
 
 
+class StudentMentorship(models.Model):
+    page = ParentalKey("Education", related_name="student_mentorship")
+
+    title = models.CharField(default="", max_length=50)
+    content = RichTextField(default="")
+    image = models.ForeignKey(
+        "wagtailimages.Image", on_delete=models.CASCADE, related_name="+"
+    )
+
+    panels = [
+        FieldPanel("title"),
+        FieldPanel("content"),
+        FieldPanel("image"),
+    ]
+
+    api_fields = [
+        APIField("title"),
+        APIField("content"),
+        APIField("image", serializer=ImageUrlField()),
+    ]
+
+
 class Education(Page):
     carousel_images = StreamField(
+        [
+            ("image", ImageChooserBlock()),
+        ],
+        use_json_field=True,
+        null=True,
+    )
+
+    moments = StreamField(
         [
             ("image", ImageChooserBlock()),
         ],
@@ -56,10 +86,14 @@ class Education(Page):
         FieldPanel("carousel_images"),
         InlinePanel("curriculums", heading="Curriculums"),
         InlinePanel("learning_methods", heading="Learning Methods"),
+        InlinePanel("student_mentorship", heading="Student Mentorship"),
+        FieldPanel("moments")
     ]
 
     api_fields = [
         APIField("carousel_images", serializer=ImageUrlField()),
         APIField("curriculums"),
         APIField("learning_methods"),
+        APIField("student_mentorship"),
+        APIField("moments")
     ]
