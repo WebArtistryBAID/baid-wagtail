@@ -1,3 +1,3 @@
-Django>=4.2,<4.3
-wagtail>=5.0,<5.1
+Django
+wagtail>=6.0
 django-cors-headers>=4.0
