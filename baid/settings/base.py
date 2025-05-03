@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     "wagtail.locales",
     "wagtail.contrib.forms",
     "wagtail.contrib.simple_translation",
+    "wagtail.contrib.search_promotions",
     "wagtail.embeds",
     "wagtail.sites",
     "wagtail.users",
