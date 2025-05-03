@@ -1,116 +1,164 @@
 from django.db import models
-from wagtail.images.blocks import ImageChooserBlock
-
-from wagtail.models import Page
-from wagtail.fields import RichTextField, StreamField
-from wagtail.admin.panels import FieldPanel, MultiFieldPanel
+from modelcluster.fields import ParentalKey
+from wagtail import blocks
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel, InlinePanel
 from wagtail.api import APIField
+from wagtail.fields import StreamField, RichTextField
+from wagtail.images.blocks import ImageChooserBlock
+from wagtail.models import Page
 
 from baid.api import ImageUrlField
 
 
-class Home(Page):
-    carousel_images = StreamField(
-        [
-            ("image", ImageChooserBlock()),
-        ],
-        use_json_field=True,
+class HomePageHighlight(models.Model):
+    page = ParentalKey("HomePage", related_name="highlights")
+
+    title = models.CharField(max_length=32, help_text="Highlight title")
+    description = RichTextField(help_text="Highlight description")
+    image = models.ForeignKey(
+        "wagtailimages.Image",
+        on_delete=models.SET_NULL,
         null=True,
+        related_name="+",
+        help_text="Highlight image"
     )
-    head = models.CharField(default="", max_length=50)
-    introduction_title = models.CharField(default="", max_length=100)
-    introduction = RichTextField(default="")
+    link = models.URLField(blank=True, help_text="Highlight link")
 
-    motto_title = models.CharField(default="", max_length=50)
-    motto_content = RichTextField(default="")
-    motto_bg = models.ForeignKey(
-        "wagtailimages.Image", on_delete=models.SET_NULL, related_name="+", null=True
-    )
-
-    spirit_title = models.CharField(default="", max_length=50)
-    spirit_content = RichTextField(default="")
-    spirit_bg = models.ForeignKey(
-        "wagtailimages.Image", on_delete=models.SET_NULL, related_name="+", null=True
-    )
-
-    key_competency_title = models.CharField(default="", max_length=50)
-    key_competency_content = RichTextField(default="")
-    key_competency_bg = models.ForeignKey(
-        "wagtailimages.Image", on_delete=models.SET_NULL, related_name="+", null=True
-    )
-
-    cultivation_title = models.CharField(default="", max_length=50)
-    cultivation_content = RichTextField(default="")
-    cultivation_bg = models.ForeignKey(
-        "wagtailimages.Image", on_delete=models.SET_NULL, related_name="+", null=True
-    )
-
-    principal_message = models.CharField(default="", max_length=50)
-    principal_avatar = models.ForeignKey(
-        "wagtailimages.Image", on_delete=models.SET_NULL, related_name="+", null=True
-    )
-    principal_name = models.CharField(default="", max_length=50)
-
-    admission_results_title = models.CharField(default="", max_length=50)
-    admission_results_content = RichTextField(default="")
-
-    content_panels = Page.content_panels + [
-        FieldPanel("carousel_images"),
-        FieldPanel("head"),
-        MultiFieldPanel(
-            [
-                FieldPanel("introduction_title"),
-                FieldPanel("introduction"),
-            ],
-            heading="Introduction",
-        ),
-        MultiFieldPanel(
-            [
-                FieldPanel("motto_title"),
-                FieldPanel("motto_content"),
-                FieldPanel("motto_bg"),
-                FieldPanel("spirit_title"),
-                FieldPanel("spirit_content"),
-                FieldPanel("spirit_bg"),
-                FieldPanel("key_competency_title"),
-                FieldPanel("key_competency_content"),
-                FieldPanel("key_competency_bg"),
-                FieldPanel("cultivation_title"),
-                FieldPanel("cultivation_content"),
-                FieldPanel("cultivation_bg"),
-            ],
-            heading="Education Philosophy",
-        ),
-        MultiFieldPanel(
-            [
-                FieldPanel("principal_message"),
-                FieldPanel("principal_avatar"),
-                FieldPanel("principal_name"),
-            ],
-            heading="Principal Remark",
-        ),
-        FieldPanel("admission_results_content"),
+    panels = [
+        FieldPanel("title"),
+        FieldPanel("description"),
+        FieldPanel("image"),
+        FieldPanel("link"),
     ]
 
     api_fields = [
-        APIField("carousel_images", serializer=ImageUrlField()),
-        APIField("head"),
-        APIField("introduction_title"),
-        APIField("introduction"),
-        APIField("motto_title"),
-        APIField("motto_content"),
-        APIField("motto_bg", serializer=ImageUrlField()),
-        APIField("spirit_title"),
-        APIField("spirit_content"),
-        APIField("spirit_bg", serializer=ImageUrlField()),
-        APIField("key_competency_title"),
-        APIField("key_competency_content"),
-        APIField("key_competency_bg", serializer=ImageUrlField()),
-        APIField("cultivation_title"),
-        APIField("cultivation_content"),
-        APIField("cultivation_bg", serializer=ImageUrlField()),
-        APIField("principal_message"),
-        APIField("principal_avatar", serializer=ImageUrlField()),
-        APIField("principal_name"),
-        APIField("admission_results_content"),
+        APIField("title"),
+        APIField("description"),
+        APIField("image", serializer=ImageUrlField()),
+        APIField("link"),
+    ]
+
+
+class HomePage(Page):
+    hero_images = StreamField(
+        [
+            ("image", ImageChooserBlock())
+        ],
+        use_json_field=True,
+        null=True
+    )
+    hero_subtitle = models.CharField(max_length=128)
+
+    intro_title = models.CharField(max_length=32)
+    intro_text = RichTextField()
+
+    motto_title = models.CharField(max_length=32)
+    motto_content = RichTextField()
+    motto_bg = models.ForeignKey(
+        'wagtailimages.Image',
+        on_delete=models.SET_NULL,
+        null=True,
+
+        related_name='+',
+    )
+
+    spirit_title = models.CharField(max_length=32)
+    spirit_content = RichTextField()
+    spirit_bg = models.ForeignKey(
+        'wagtailimages.Image',
+        on_delete=models.SET_NULL,
+        null=True,
+
+        related_name='+',
+    )
+
+    literacy_title = models.CharField(max_length=32)
+    literacy_content = RichTextField()
+    literacy_bg = models.ForeignKey(
+        'wagtailimages.Image',
+        on_delete=models.SET_NULL,
+        null=True,
+
+        related_name='+',
+    )
+
+    pathway_title = models.CharField(max_length=32)
+    pathway_content = RichTextField()
+    pathway_bg = models.ForeignKey(
+        'wagtailimages.Image',
+        on_delete=models.SET_NULL,
+        null=True,
+
+        related_name='+',
+    )
+
+    principal_quote = RichTextField()
+    principal_name = models.CharField(max_length=32)
+    principal_avatar = models.ForeignKey(
+        'wagtailimages.Image',
+        on_delete=models.SET_NULL,
+        null=True,
+
+        related_name='+',
+    )
+
+    content_panels = Page.content_panels + [
+        MultiFieldPanel([
+            FieldPanel('hero_images'),
+            FieldPanel('hero_subtitle'),
+        ], heading="Hero Section"),
+
+        MultiFieldPanel([
+            FieldPanel('intro_title'),
+            FieldPanel('intro_text')
+        ], heading="Introduction Section"),
+
+        InlinePanel("highlights", heading="Highlights"),
+
+        MultiFieldPanel([
+            FieldPanel('motto_title'),
+            FieldPanel('motto_content'),
+            FieldPanel('motto_bg'),
+
+            FieldPanel('spirit_title'),
+            FieldPanel('spirit_content'),
+            FieldPanel('spirit_bg'),
+
+            FieldPanel('literacy_title'),
+            FieldPanel('literacy_content'),
+            FieldPanel('literacy_bg'),
+
+            FieldPanel('pathway_title'),
+            FieldPanel('pathway_content'),
+            FieldPanel('pathway_bg')
+        ], heading="Philosophy Section"),
+
+        MultiFieldPanel([
+            FieldPanel('principal_quote'),
+            FieldPanel('principal_name'),
+            FieldPanel('principal_avatar'),
+        ], heading="Quote Section")
+    ]
+
+    api_fields = [
+        APIField('hero_images', serializer=ImageUrlField()),
+        APIField('hero_subtitle'),
+        APIField('intro_title'),
+        APIField('intro_text'),
+        APIField("highlights"),
+        APIField('motto_title'),
+        APIField('motto_content'),
+        APIField('motto_bg', serializer=ImageUrlField()),
+        APIField('spirit_title'),
+        APIField('spirit_content'),
+        APIField('spirit_bg', serializer=ImageUrlField()),
+        APIField('literacy_title'),
+        APIField('literacy_content'),
+        APIField('literacy_bg', serializer=ImageUrlField()),
+        APIField('pathway_title'),
+        APIField('pathway_content'),
+        APIField('pathway_bg', serializer=ImageUrlField()),
+        APIField('principal_quote'),
+        APIField('principal_name'),
+        APIField('principal_avatar', serializer=ImageUrlField())
     ]
