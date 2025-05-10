@@ -24,6 +24,9 @@ CSRF_TRUSTED_ORIGINS = [
     'http://localhost:3000',
 ]
 
+# We're in an awkward proxy set up, so we have to do this.
+SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
+
 try:
     from .local import *
 except ImportError:
