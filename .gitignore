@@ -36,7 +36,7 @@ wheels/
 static/
 
 # Secrets
-start.sh
+.env
 
 media/
 db.sqlite3
