@@ -22,7 +22,7 @@ class OneLoginOAuth2(BaseOAuth2):
     def get_user_details(self, response):
         return {
             "id": response.get("seiueId"),
-            "username": response.get("name")
+            "username": response.get("pinyin")
         }
 
     def user_data(self, access_token, *args, **kwargs):
