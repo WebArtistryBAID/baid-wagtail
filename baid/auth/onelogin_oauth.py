@@ -6,12 +6,13 @@ from social_core.backends.oauth import BaseOAuth2
 
 class OneLoginOAuth2(BaseOAuth2):
     name = "onelogin"
+    ID_KEY = "seiueId"
     AUTHORIZATION_URL = os.environ["ONELOGIN_HOST"] + "/oauth2/authorize"
     ACCESS_TOKEN_URL = os.environ["ONELOGIN_HOST"] + "/oauth2/token"
     USER_DATA_URL = os.environ["ONELOGIN_HOST"] + "/api/v1/me"
     REDIRECT_STATE = False
     ACCESS_TOKEN_METHOD = "POST"
-    EXTRA_DATA = [("id", "id"), ("expires_in", "expires")]
+    EXTRA_DATA = [("seiueId", "id"), ("expires_in", "expires")]
 
     def auth_headers(self):
         client_id = self.setting('KEY')
